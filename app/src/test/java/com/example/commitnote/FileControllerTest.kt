@@ -21,7 +21,7 @@ class FileControllerTest {
     val tempFolder = TemporaryFolder()
 
     @Test
-    fun verifyNoteFileIsCreated() {
+    fun `노트의 내용을 기록한 blob이 올바른 위치에 저장된다`() {
         val mockContext = Mockito.mock(Context::class.java)
         `when`(mockContext.filesDir).thenReturn(tempFolder.root)
         val note = Note(title = "hello", content = "world")
