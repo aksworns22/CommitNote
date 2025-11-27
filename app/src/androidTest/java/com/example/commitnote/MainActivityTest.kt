@@ -21,4 +21,10 @@ class MainActivityTest {
         onView(withId(R.id.noteContent))
             .check(matches(isDisplayed()))
     }
+
+    @Test
+    fun shouldDisplayButton() {
+        onView(withId(R.id.commitButton))
+            .check(matches(isDisplayed()))
+    }
 }
