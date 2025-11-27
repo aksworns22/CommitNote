@@ -11,6 +11,7 @@ import org.junit.Test
 import org.junit.rules.TemporaryFolder
 import org.mockito.Mockito
 import org.mockito.Mockito.`when`
+import java.nio.file.Paths
 
 class FileControllerTest {
 
@@ -23,8 +24,11 @@ class FileControllerTest {
         `when`(mockContext.filesDir).thenReturn(tempFolder.root)
         val note = Note(title = "hello", content = "world")
         val blob = Blob.of(note, ZlibCompressor)
+
         val file = FileController.write(mockContext.filesDir, blob)
-        assertThat(file.path).contains("63/b77d3e36388e6c463f85726a4bb4585479d96e")
+        assertThat(file.path).contains(
+            Paths.get("63", "b77d3e36388e6c463f85726a4bb4585479d96e").toString()
+        )
         assertThat(ZlibCompressor.decompress(file.readBytes())).isEqualTo("hello\\0world")
     }
 }
