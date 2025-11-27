@@ -1,6 +1,6 @@
 package com.example.commitnote.core
 
-import com.example.commitnote.data.NotePath
+import com.example.commitnote.data.ObjectPath
 import java.io.ByteArrayOutputStream
 import java.util.zip.Deflater
 import java.util.zip.Inflater
@@ -47,12 +47,12 @@ object ZlibCompressor : Compressor {
     }
 }
 
-data class Blob(val notePath: NotePath, val content: ByteArray) {
-    val hash = notePath.fullHash
+data class Blob(val objectPath: ObjectPath, val content: ByteArray) {
+    val hash = objectPath.fullHash
     companion object {
         fun of(note: Note, compressor: Compressor): Blob {
             return Blob(
-                NotePath.of(note, Sha1Hasher),
+                ObjectPath.of(note, Sha1Hasher),
                 compressor.compress(note.toByteArray())
             )
         }
