@@ -45,6 +45,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     testImplementation("org.assertj:assertj-core:3.27.6")
+    testImplementation("org.mockito:mockito-core:5.20.0")
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }
