@@ -5,6 +5,7 @@ import com.example.commitnote.core.Blob
 import com.example.commitnote.core.Commit
 import com.example.commitnote.core.Note
 import com.example.commitnote.core.Sha1Hasher
+import com.example.commitnote.core.TimeProvider
 import com.example.commitnote.core.ZlibCompressor
 import com.example.commitnote.data.FileController
 import org.assertj.core.api.Assertions.assertThat
@@ -40,8 +41,12 @@ class FileControllerTest {
         `when`(mockContext.filesDir).thenReturn(tempFolder.root)
         val note = Note(title = "hello", content = "world")
         val blob = Blob.of(note, ZlibCompressor)
-        val time: Long = 0L
-        val commit = Commit(null, blob, time, Sha1Hasher)
+        val zeroTimeProvider = object : TimeProvider {
+            override fun currentTimeMillis(): Long {
+                return 0
+            }
+        }
+        val commit = Commit(null, blob, Sha1Hasher, zeroTimeProvider)
         val file = FileController.write(
             mockContext.filesDir,
             commit,
@@ -51,6 +56,6 @@ class FileControllerTest {
             Paths.get("3a", "39bca4821d6a2c02b64bbb54ebe3b6e032d77c").toString()
         )
         assertThat(ZlibCompressor.decompress(file.readBytes()))
-            .isEqualTo("blob ${blob.hash}\\ntime $time")
+            .isEqualTo("blob ${blob.hash}\\ntime ${zeroTimeProvider.currentTimeMillis()}")
     }
 }
