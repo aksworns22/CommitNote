@@ -1,7 +1,9 @@
 package com.example.commitnote
 
 import android.content.Context
+import com.example.commitnote.core.Blob
 import com.example.commitnote.core.Note
+import com.example.commitnote.core.ZlibCompressor
 import com.example.commitnote.data.FileController
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Rule
@@ -20,8 +22,9 @@ class FileControllerTest {
         val mockContext = Mockito.mock(Context::class.java)
         `when`(mockContext.filesDir).thenReturn(tempFolder.root)
         val note = Note(title = "hello", content = "world")
-        val file = FileController.write(mockContext.filesDir, note)
+        val blob = Blob.of(note, ZlibCompressor)
+        val file = FileController.write(mockContext.filesDir, blob)
         assertThat(file.path).contains("63/b77d3e36388e6c463f85726a4bb4585479d96e")
-        assertThat(file.readText(Charsets.UTF_8)).isEqualTo("hello\\0world")
+        assertThat(ZlibCompressor.decompress(file.readBytes())).isEqualTo("hello\\0world")
     }
 }
