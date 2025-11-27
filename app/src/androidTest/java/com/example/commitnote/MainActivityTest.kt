@@ -18,7 +18,13 @@ class MainActivityTest {
     val activityRule = ActivityScenarioRule(MainActivity::class.java)
 
     @Test
-    fun shouldDisplayEditText() {
+    fun shouldDisplayNoteTitleEditText() {
+        onView(withId(R.id.noteTitle))
+            .check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun shouldDisplayNoteContentEditText() {
         onView(withId(R.id.noteContent))
             .check(matches(isDisplayed()))
     }
