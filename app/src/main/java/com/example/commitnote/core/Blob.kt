@@ -48,6 +48,7 @@ object ZlibCompressor : Compressor {
 }
 
 data class Blob(val notePath: NotePath, val content: ByteArray) {
+    val hash = notePath.fullHash
     companion object {
         fun of(note: Note, compressor: Compressor): Blob {
             return Blob(

@@ -4,6 +4,7 @@ import com.example.commitnote.core.Hasher
 import com.example.commitnote.core.Note
 
 class NotePath(val directory: String, val filename: String) {
+    val fullHash = directory + filename
     override fun toString(): String = "$directory/$filename"
     companion object {
         fun of(note: Note, hasher: Hasher): NotePath {
